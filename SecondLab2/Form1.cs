@@ -20,7 +20,7 @@ namespace SecondLab2
         private void ResultButton_Click(object sender, EventArgs e)
         {
             double depositSize = int.Parse(DepositInput.Text);
-            double percent = int.Parse(PercentInput.Text) / 100;
+            double percent = double.Parse(PercentInput.Text) / 100;
 
             DepositCalculator calc = new DepositCalculator(depositSize, percent);
 

@@ -82,6 +82,7 @@
             this.ResultButton.TabIndex = 4;
             this.ResultButton.Text = "Рассчитать";
             this.ResultButton.UseVisualStyleBackColor = true;
+            this.ResultButton.Click += new System.EventHandler(this.ResultButton_Click);
             // 
             // MainLabel
             // 

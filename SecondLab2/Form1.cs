@@ -17,22 +17,65 @@ namespace SecondLab2
             InitializeComponent();
         }
 
-        private void ResultButton_Click(object sender, EventArgs e)
+        private void CalculateHandeler(object sender, EventArgs e)
         {
-            double depositSize = int.Parse(DepositInput.Text);
+            Calculate();
+        }
+
+        private void Calculate()
+        {
+            bool isFindExeption = false;
+
+            foreach (var el in this.Controls)
+            {
+                if (el is TextBox)
+                {
+                    var textBox = el as TextBox;
+
+                    if (!IsOnlyNumbers(textBox.Text))
+                    {
+                        isFindExeption = true;
+                        textBox.BackColor = Color.Red;
+                        ResultLabel.Text = "";
+                    }
+                    else
+                    {
+                        textBox.BackColor = Color.White;
+                    }
+                }
+            }
+
+            if (isFindExeption) return;
+
+            double depositSize = double.Parse(DepositInput.Text);
             double percent = double.Parse(PercentInput.Text) / 100;
 
-            DepositCalculator calc = new DepositCalculator(depositSize, percent);
+            var calc = new DepositCalculator(depositSize, percent);
 
-            double depositLimit = int.Parse(DepLimitInput.Text);
-            double incrementLimit = int.Parse(IncrementLimitInput.Text);
+            double depositLimit = double.Parse(DepLimitInput.Text);
+            double incrementLimit = double.Parse(IncrementLimitInput.Text);
 
             var result = calc.Calculate(incrementLimit, depositLimit);
 
-            MessageBox.Show(
+            ResultLabel.Text =
                 $"Величина ежемесячного увеличения превысит {incrementLimit} руб через {result.a} месяцев \n" +
-                $"Размер вклада превысит {depositLimit} руб через {result.b} месяцев"
-                );
+                $"Размер вклада превысит {depositLimit} руб через {result.b} месяцев";
+        }
+
+        private bool IsOnlyNumbers(String str)
+        {
+            if (String.IsNullOrEmpty(str)) return false;
+
+            str = str.Replace(" ", "");
+            for (int i=0; i < str.Length; i++)
+            {
+                if (!Char.IsDigit(str[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
